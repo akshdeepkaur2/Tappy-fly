@@ -178,30 +178,29 @@ public class GameEngine extends SurfaceView implements Runnable {
     // - update, draw, setFPS
     // ------------------------------
 
-
+public void  updateHitbox(Rect Hitbox, Bitmap Image, int xPos, int yPos){
+        Hitbox.left = xPos;
+        Hitbox.top  = yPos;
+        Hitbox.right = xPos+ Image.getWidth();
+        Hitbox.bottom = yPos+ Image.getHeight();
+}
 
     public void updatePositions() {
         // @TODO: Update position of player based on mouse tap
         if (this.fingerAction == "mousedown") {
-            // if mousedown, then move player up
+            // if mousedown, then move player u
             // Make the UP movement > than down movement - this will
             // make it look like the player is moving up alot
             this.playerYPosition = this.playerYPosition - 100;
             //MOVE THE PLAYER HITBOX
-            this.playerHitbox.left = this.playerXPosition;
-            this.playerHitbox.right = this.playerXPosition + this.playerImage.getWidth();
-            this.playerHitbox.top  = this.playerYPosition;
-            this.playerHitbox.bottom = this.playerYPosition + this.playerImage.getHeight();
+            updateHitbox(playerHitbox,playerImage,playerXPosition,playerYPosition);
         }
 
         if (this.fingerAction == "mouseup") {
             // if mouseup, then move player down
             this.playerYPosition = this.playerYPosition + 10;
             //MOVE THE PLAYER HITBOX
-            this.playerHitbox.left = this.playerXPosition;
-            this.playerHitbox.right = this.playerXPosition + this.playerImage.getWidth();
-            this.playerHitbox.top  = this.playerYPosition;
-            this.playerHitbox.bottom = this.playerYPosition + this.playerImage.getHeight();
+            updateHitbox(playerHitbox,playerImage,playerXPosition,playerYPosition);
         }
 
 
@@ -211,22 +210,15 @@ public class GameEngine extends SurfaceView implements Runnable {
         this.enemyXPosition = this.enemyXPosition - 25;
 
         // MOVE THE HITBOX (recalcluate the position of the hitbox)
-        this.enemyHitbox.left  = this.enemyXPosition;
-        this.enemyHitbox.top = this.enemyYPosition;
-        this.enemyHitbox.right  = this.enemyXPosition + this.ememyImage.getWidth();
-        this.enemyHitbox.bottom = this.enemyYPosition + this.ememyImage.getHeight();
-
+        updateHitbox(enemyHitbox,ememyImage,enemyXPosition,enemyYPosition);
         if (this.enemyXPosition <= 0) {
             // restart the enemy in the starting position
             this.enemyXPosition = 1300;
             this.enemyYPosition = 120;
         }
 // restart the hitbox too
-        this.enemyHitbox.left  = this.enemyXPosition;
-        this.enemyHitbox.top = this.enemyYPosition;
-        this.enemyHitbox.right  = this.enemyXPosition + this.ememyImage.getWidth();
-        this.enemyHitbox.bottom = this.enemyYPosition + this.ememyImage.getHeight();
 
+        updateHitbox(enemyHitbox,ememyImage,enemyXPosition,enemyYPosition);
 // check the collision detection
         if (this.playerHitbox.intersect(this.enemyHitbox) == true) {
             // the enemy and player are colliding
@@ -238,22 +230,14 @@ public class GameEngine extends SurfaceView implements Runnable {
         this.enemy2XPositiion = this.enemy2XPositiion - 25;
 
         // MOVE THE HITBOX (recalcluate the position of the hitbox)
-        this.enemy2Hitbox.left  = this.enemy2XPositiion;
-        this.enemy2Hitbox.top = this.enemy2XPositiion;
-        this.enemy2Hitbox.right  = this.enemy2XPositiion + this.enemy2Image.getWidth();
-        this.enemy2Hitbox.bottom = this.enemy2YPosition + this.enemy2Image.getHeight();
-
+        updateHitbox(enemy2Hitbox,enemy2Image,enemy2XPositiion,enemy2YPosition);
         if (this.enemy2XPositiion <= 0) {
             // restart the enemy in the starting position
             this.enemy2XPositiion = 1100;
             this.enemy2YPosition = 150;
         }
 // restart the hitbox too
-        this.enemy2Hitbox.left  = this.enemy2XPositiion;
-        this.enemy2Hitbox.top = this.enemy2YPosition;
-        this.enemy2Hitbox.right  = this.enemy2XPositiion + this.enemy2Image.getWidth();
-        this.enemy2Hitbox.bottom = this.enemy2YPosition+ this.enemy2Image.getHeight();
-
+        updateHitbox(enemy2Hitbox,enemy2Image,enemy2XPositiion,enemy2YPosition);
 // check the collision detection
         if (this.playerHitbox.intersect(this.enemy2Hitbox) == true) {
             // the enemy and player are colliding
