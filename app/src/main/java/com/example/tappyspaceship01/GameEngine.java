@@ -61,7 +61,7 @@ public class GameEngine extends SurfaceView implements Runnable {
     // ----------------------------
     // ## GAME STATS
     // ----------------------------
-
+    int lives = 5;
     public GameEngine(Context context, int w, int h) {
         super(context);
 
@@ -105,7 +105,6 @@ public class GameEngine extends SurfaceView implements Runnable {
                 100+playerImage.getWidth(),
                 600+playerImage.getHeight()
         );
-
 
 
 
@@ -210,7 +209,13 @@ public class GameEngine extends SurfaceView implements Runnable {
         this.enemyHitbox.right  = this.enemyXPosition + this.ememyImage.getWidth();
         this.enemyHitbox.bottom = this.enemyYPosition + this.ememyImage.getHeight();
 
-
+// check the collision detection
+        if (this.playerHitbox.intersect(this.enemyHitbox) == true) {
+            // the enemy and player are colliding
+            Log.d(TAG, "++++++ENEMY AND PLAYER COLLIDING!");
+            //decrease the lives
+            lives = lives-1;
+        }
     }
 
     public void redrawSprites() {
@@ -241,6 +246,8 @@ public class GameEngine extends SurfaceView implements Runnable {
             canvas.drawBitmap(ememyImage, enemyXPosition, enemyYPosition, paintbrush);
             // 2. draw the enemy's hitbox
             canvas.drawRect(this.enemyHitbox, paintbrush);
+            paintbrush.setTextSize(60);
+            canvas.drawText("lives:" + lives, 700,800,paintbrush);
 
             //----------------
             this.holder.unlockCanvasAndPost(canvas);
