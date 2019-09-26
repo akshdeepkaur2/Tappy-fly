@@ -50,14 +50,20 @@ public class GameEngine extends SurfaceView implements Runnable {
     int playerYPosition;
     Bitmap playerImage;
     Bitmap ememyImage;
+    Bitmap enemy2Image;
 
 
     int enemyXPosition;
     int enemyYPosition;
 
 
+    int enemy2XPositiion;
+    int enemy2YPosition;
+
+
     Rect playerHitbox;
     Rect enemyHitbox;
+    Rect enemy2Hitbox;
     // ----------------------------
     // ## GAME STATS
     // ----------------------------
@@ -80,6 +86,8 @@ public class GameEngine extends SurfaceView implements Runnable {
         // put initial starting postion of enemy
         this.ememyImage = BitmapFactory.decodeResource(this.getContext().getResources(),
                 R.drawable.alien_ship2);
+        this.enemy2Image = BitmapFactory.decodeResource(this.getContext().getResources(),
+                R.drawable.alien_ship3);
 
 
         this.enemyXPosition = 1300;
@@ -89,6 +97,16 @@ public class GameEngine extends SurfaceView implements Runnable {
                 120,
                 1300+ememyImage.getWidth(),
                 120+ememyImage.getHeight()
+        );
+
+        // enemy 2
+        this.enemy2XPositiion = 1100;
+        this.enemy2YPosition = 150;
+        // 1. create the hitbox
+        this.enemy2Hitbox = new Rect(1100,
+                200,
+                1100+enemy2Image.getWidth(),
+                150+enemy2Image.getHeight()
         );
 
 
@@ -216,6 +234,33 @@ public class GameEngine extends SurfaceView implements Runnable {
             //decrease the lives
             lives = lives-1;
         }
+
+        this.enemy2XPositiion = this.enemy2XPositiion - 25;
+
+        // MOVE THE HITBOX (recalcluate the position of the hitbox)
+        this.enemy2Hitbox.left  = this.enemy2XPositiion;
+        this.enemy2Hitbox.top = this.enemy2XPositiion;
+        this.enemy2Hitbox.right  = this.enemy2XPositiion + this.enemy2Image.getWidth();
+        this.enemy2Hitbox.bottom = this.enemy2YPosition + this.enemy2Image.getHeight();
+
+        if (this.enemy2XPositiion <= 0) {
+            // restart the enemy in the starting position
+            this.enemy2XPositiion = 1100;
+            this.enemy2YPosition = 150;
+        }
+// restart the hitbox too
+        this.enemy2Hitbox.left  = this.enemy2XPositiion;
+        this.enemy2Hitbox.top = this.enemy2YPosition;
+        this.enemy2Hitbox.right  = this.enemy2XPositiion + this.enemy2Image.getWidth();
+        this.enemy2Hitbox.bottom = this.enemy2YPosition+ this.enemy2Image.getHeight();
+
+// check the collision detection
+        if (this.playerHitbox.intersect(this.enemy2Hitbox) == true) {
+            // the enemy and player are colliding
+            Log.d(TAG, "++++++ENEMY AND PLAYER COLLIDING!");
+            //decrease the lives
+            lives = lives-1;
+        }
     }
 
     public void redrawSprites() {
@@ -246,6 +291,9 @@ public class GameEngine extends SurfaceView implements Runnable {
             canvas.drawBitmap(ememyImage, enemyXPosition, enemyYPosition, paintbrush);
             // 2. draw the enemy's hitbox
             canvas.drawRect(this.enemyHitbox, paintbrush);
+            canvas.drawBitmap(enemy2Image, enemy2XPositiion, enemy2YPosition, paintbrush);
+            // 2. draw the enemy's hitbox
+            canvas.drawRect(this.enemy2Hitbox, paintbrush);
             paintbrush.setTextSize(60);
             canvas.drawText("lives:" + lives, 700,800,paintbrush);
 
