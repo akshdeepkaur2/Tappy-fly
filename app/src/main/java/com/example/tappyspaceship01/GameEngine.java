@@ -180,6 +180,11 @@ public class GameEngine extends SurfaceView implements Runnable {
         if (this.fingerAction == "mouseup") {
             // if mouseup, then move player down
             this.playerYPosition = this.playerYPosition + 10;
+            //MOVE THE PLAYER HITBOX
+            this.playerHitbox.left = this.playerXPosition;
+            this.playerHitbox.right = this.playerXPosition + this.playerImage.getWidth();
+            this.playerHitbox.top  = this.playerYPosition;
+            this.playerHitbox.bottom = this.playerYPosition + this.playerImage.getHeight();
         }
 
 
