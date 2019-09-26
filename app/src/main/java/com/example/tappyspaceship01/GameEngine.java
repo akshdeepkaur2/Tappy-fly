@@ -170,17 +170,18 @@ public class GameEngine extends SurfaceView implements Runnable {
             // Make the UP movement > than down movement - this will
             // make it look like the player is moving up alot
             this.playerYPosition = this.playerYPosition - 100;
+            //MOVE THE PLAYER HITBOX
+            this.playerHitbox.left = this.playerXPosition;
+            this.playerHitbox.right = this.playerXPosition + this.playerImage.getWidth();
+            this.playerHitbox.top  = this.playerYPosition;
+            this.playerHitbox.bottom = this.playerYPosition + this.playerImage.getHeight();
         }
 
         if (this.fingerAction == "mouseup") {
             // if mouseup, then move player down
             this.playerYPosition = this.playerYPosition + 10;
         }
-        //MOVE THE PLAYER HITBOX
-        this.playerHitbox.left = this.playerXPosition;
-        this.playerHitbox.right = this.playerXPosition + this.playerImage.getWidth();
-        this.playerHitbox.top  = this.playerYPosition;
-        this.playerHitbox.bottom = this.playerYPosition + this.playerImage.getHeight();
+
 
         // MAKE ENEMY MOVE
         // - enemy moves left forever
@@ -198,6 +199,11 @@ public class GameEngine extends SurfaceView implements Runnable {
             this.enemyXPosition = 1300;
             this.enemyYPosition = 120;
         }
+// restart the hitbox too
+        this.enemyHitbox.left  = this.enemyXPosition;
+        this.enemyHitbox.top = this.enemyYPosition;
+        this.enemyHitbox.right  = this.enemyXPosition + this.ememyImage.getWidth();
+        this.enemyHitbox.bottom = this.enemyYPosition + this.ememyImage.getHeight();
 
 
     }
